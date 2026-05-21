@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>오늘 나의 기분은? | 16 감성 플레이리스트</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;500;700;900&display=swap');
+
+        :root {
+            --main-bg: #0d1117;
+            --text-light: #ffffff;
+            --text-muted: #8b949e;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background-color: var(--main-bg);
+            color: var(--text-light);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 60px 20px;
+            overflow-x: hidden;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 60px;
+            max-width: 600px;
+        }
+
+        header h1 {
+            font-size: 2.8rem;
+            font-weight: 900;
+            background: linear-gradient(45deg, #ff758c, #ff7eb3, #8611e4, #4cc9f0);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 15px;
+        }
+
+        header p {
+            font-size: 1.1rem;
+            color: var(--text-muted);
+            font-weight: 300;
+            letter-spacing: 0.5px;
+        }
+
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 25px;
+            max-width: 1200px;
+            width: 100%;
+            perspective: 1000px; /* 3D 효과를 위한 원근감 세팅 */
+        }
+
+        .mood-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 24px;
+            padding: 40px 20px;
+            text-align: center;
+            text-decoration: none;
+            color: var(--text-light);
+            backdrop-filter: blur(12px);
+            transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* 호버 시 입체적으로 튀어나오고 그림자 확산되는 효과 */
+        .mood-card:hover {
+            transform: translateY(-10px) scale(1.03);
+            border-color: rgba(255, 255, 255, 0.25);
+            box-shadow: 0 20px 40px var(--shadow-color);
+            background: rgba(255, 255, 255, 0.07);
+        }
+
+        /* 카드 내부에 은은한 그라데이션 빛 효과 */
+        .mood-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, var(--shadow-color) 0%, transparent 70%);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            z-index: -1;
+        }
+
+        .mood-card:hover::before {
+            opacity: 0.15;
+        }
+
+        .emoji {
+            font-size: 3.8rem;
+            margin-bottom: 20px;
+            filter: drop-shadow(0 10px 15px rgba(0,0,0,0.3));
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .mood-card:hover .emoji {
+            transform: scale(1.25) translateY(-5px);
+        }
+
+        .mood-name {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            letter-spacing: -0.5px;
+        }
+
+        .mood-desc {
+            font-size: 0.88rem;
+            color: var(--text-muted);
+            line-height: 1.5;
+            font-weight: 300;
+        }
+
+        /* 16가지 무드 고유 테마 컬러 설정 */
+        .m1 { --shadow-color: #ff007f; } /* 신남 */
+        .m2 { --shadow-color: #ffb703; } /* 행복 */
+        .m3 { --shadow-color: #06d6a0; } /* 차분 */
+        .m4 { --shadow-color: #4cc9f0; } /* 청량 */
+        .m5 { --shadow-color: #7209b7; } /* 몽환 */
+        .m6 { --shadow-color: #ff4d6d; } /* 설렘 */
+        .m7 { --shadow-color: #118ab2; } /* 슬픔 */
+        .m8 { --shadow-color: #ef476f; } /* 분노 */
+        .m9 { --shadow-color: #d6ccc2; } /* 무기력 */
+        .m10 { --shadow-color: #f7a072; } /* 집중 */
+        .m11 { --shadow-color: #00f5d4; } /* 자신감 */
+        .m12 { --shadow-color: #ae2012; } /* 고독 */
+        .m13 { --shadow-color: #9b5de5; } /* 새벽감성 */
+        .m14 { --shadow-color: #ff9f1c; } /* 드라이브 */
+        .m15 { --shadow-color: #a2d2ff; } /* 멍때림 */
+        .m16 { --shadow-color: #e2e2e2; } /* 비오는날 */
+
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>무드 스위치 16</h1>
+        <p>지금 내 마음에 머무는 감정을 클릭해 보세요.<br>가장 조회수 높은 최적의 플레이리스트로 연결됩니다.</p>
+    </header>
+
+    <div class="grid-container">
+        <a href="https://www.youtube.com/results?search_query=신나는+내적댄스+플레이리스트&sp=CAM%253D" target="_blank" class="mood-card m1">
+            <span class="emoji">⚡</span>
+            <div class="mood-name">도파민 폭발</div>
+            <div class="mood-desc">내적 댄스 무한 유발!<br>심장 뛰는 비트</div>
+        </a>
+
+        <a href="https://www.youtube.com/results?search_query=행복해지는+밝은+팝송+플레이리스트&sp=CAM%253D" target="_blank" class="mood-card m2">
+            <span class="emoji">☀️</span>
+            <div class="mood-name">행복 지수 100%</div>
+            <div class="mood-desc">구름 위를 걷는 듯<br>맑고 화창한 기분</div>
+        </a>
+
+        <a href="https://www.youtube.com/results?search_query=청량하고+시원한+아이돌+플레이리스트&sp=CAM%253D" target="_blank" class="mood-card m4">
+            <span class="emoji">🌿</span>
+            <div class="mood-name">청량 에너지</div>
+            <div class="mood-desc">탄산수 한 모금 머금은 듯<br>싱그럽고 시원한 팝</div>
+        </a>
+
+        <a href="https://www.youtube.com/results?search_query=자신감+뿜뿜+당당한+팝송+플레이리스트&sp=CAM%253D" target="_blank" class="mood-card m11">
+            <span class="emoji">👑</span>
+            <div class="mood-name">근거 없는 자신감</div>
+            <div class="mood-desc">내가 이 구역의 주인공!<br>당당해지는 힙한 무드</div>
+        </a>
+
+        <a href="https://www.youtube.com/results?search_query=차분하고+편안한+카페+재즈+플레이리스트&sp=CAM%253D" target="_blank" class="mood-card m3">
+            <span class="emoji">☕</span>
+            <div class="mood-name">나른한 평온</div>
+            <div class="mood-desc">조용한 북카페에 앉아<br>차 한 잔 마시는 여유</div>
+        </a>
+
+        <a href="https://www.youtube.com/results?search_query=몽환적인+시티팝+신스팝+플레이리스트&sp=CAM%253D" target="_blank" class="mood-card m5">
+            <span class="emoji">🌌</span>
+            <div class="mood-name">몽환 & 시티팝</div>
+            <div class="mood-desc">보랏빛 네온사인 아래<br>우주를 유영하는 감성</div>
+        </a>
+
+        <a href="https://www.youtube.com/results?search_query=연애세포+자극+달달한+노래+플레이리스트&sp=CAM%253D" target="_blank" class="mood-card m6">
+            <span class="emoji">🌸</span>
+            <div class="mood-name">몽글몽글 설렘</div>
+            <div class="mood-desc">봄바람처럼 간지러운<br>달콤한 고백송</div>
+        </a>
+
+        <a href="https://www.youtube.com/results?search_query=새벽감성+차분한+인디+플레이리스트&sp=CAM%253D" target="_blank" class="mood-card m13">
+            <span class="emoji">🌙</span>
+            <div class="mood-name">새벽 두 시</div>
+            <div class="mood-desc">감성이 최고조에 달하는<br>깊고 짙은 밤의 멜로디</div>
+        </a>
+
+        <a href="https://www.youtube.com/results?search_query=눈물+펑펑+슬픈+발라드+플레이리스트&sp=CAM%253D" target="_blank" class="mood-card m7">
+            <span class="emoji">🌊</span>
+            <div class="mood-name">눈물 한 스푼</div>
+            <div class="mood-desc">마음껏 소리 내어<br>울고 싶을 때 듣는 발라드</div>
+        </a>
+
+        <a href="https://www.youtube.com/results?search_query=스트레스+풀리는+강렬한+락+플레이리스트&sp=CAM%253D" target="_blank" class="mood-card m8">
+            <span class="emoji">🔥</span>
+            <div class="mood-name">분노 조절 장치</div>
+            <div class="mood-desc">답답한 속을 뻥 뚫어줄<br>강렬하고 시원한 사운드</div>
+        </a>
+
+        <a href="https://www.youtube.com/results?search_query=아무것도+하기싫을때+무기력+플레이리스트&sp=CAM%253D" target="_blank" class="mood-card m9">
+            <span class="emoji">🔋</span>
+            <div class="mood-name">배터리 방전</div>
+            <div class="mood-desc">번아웃이 찾아온 날,<br>아무 생각 없이 눕고 싶을 때</div>
+        </a>
+
+        <a href="https://www.youtube.com/results?search_query=쓸쓸하고+외로운+고독한+노래+플레이리스트&sp=CAM%253D" target="_blank" class="mood-card m12">
+            <span class="emoji">🍂</span>
+            <div class="mood-name">지독한 고독</div>
+            <div class="mood-desc">세상에 나 혼자 남겨진 듯<br>쓸쓸함이 밀려올 때</div>
+        </a>
+
+        <a href="https://www.youtube.com/results?search_query=공부할때+듣는+가사없는+로파이&sp=CAM%253D" target="_blank" class="mood-card m10">
+            <span class="emoji">📝</span>
+            <div class="mood-name">최강의 집중력</div>
+            <div class="mood-desc">과제, 공부, 작업할 때<br>몰입도를 높여줄 로파이</div>
+        </a>
+
+        <a href="https://www.youtube.com/results?search_query=드라이브+신나는+팝송+플레이리스트&sp=CAM%253D" target="_blank" class="mood-card m14">
+            <span class="emoji">🏎️</span>
+            <div class="mood-name">핸들 잡아 드라이브</div>
+            <div class="mood-desc">창문 열고 달리는 도로 위,<br>가장 완벽한 배경음악</div>
+        </a>
+
+        <a href="https://www.youtube.com/results?search_query=아무생각없이+불멍+물멍+플레이리스트&sp=CAM%253D" target="_blank" class="mood-card m15">
+            <span class="emoji">☁️</span>
+            <div class="mood-name">영혼 없는 멍때림</div>
+            <div class="mood-desc">과부하 걸린 뇌를 비워줄<br>잔잔하고 미니멀한 무드</div>
+        </a>
+
+        <a href="https://www.youtube.com/results?search_query=비오는날+듣기좋은+감성+플레이리스트&sp=CAM%253D" target="_blank" class="mood-card m16">
+            <span class="emoji">☔</span>
+            <div class="mood-name">빗소리와 멜로디</div>
+            <div class="mood-desc">툭툭 떨어지는 빗방울과<br>찰떡같이 어울리는 감성곡</div>
+        </a>
+    </div>
+
+</body>
+</html>
